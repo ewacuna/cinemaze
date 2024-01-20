@@ -10,6 +10,11 @@
   --secondary-light-color: #607d8b;
 }
 
+/* Swiper */
+swiper-container::part(bullet-active) {
+  background-color: var(--main-color);
+}
+
 /* Custom Selection */
 ::selection {
   color: #ffffff;
