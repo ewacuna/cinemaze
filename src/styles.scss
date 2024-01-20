@@ -1,3 +1,22 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+/* Variables */
+:root {
+  --main-color: #EF4444;
+  --secondary-color: #455A64;
+  --main-light-color: #FECACA;
+  --secondary-light-color: #607D8B;
+}
+
+/* Custom Selection */
+::selection {
+  color: #FFFFFF;
+  background: var(--main-color);
+}
+
+::-moz-selection {
+  color: #FFFFFF;
+  background: var(--main-color);
+}
