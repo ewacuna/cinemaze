@@ -1,0 +1,22 @@
+<!-- Movie Card -->
+<article class="max-w-sm border rounded-lg shadow bg-gray-800 border-gray-700">
+  <a [routerLink]="[isMovie ? '/movies' : '/tv-shows', model.id]">
+    <img
+      class="rounded-t-lg w-full object-cover h-auto select-none transition duration-300 ease-in-out hover:opacity-40"
+      [ngSrc]="
+        'https://image.tmdb.org/t/p/w220_and_h330_face/' + model['poster_path']
+      "
+      [alt]="model.name ?? model.title"
+      [height]="330"
+      [width]="220"
+      appMissingPicture
+    />
+  </a>
+  <div class="p-2 min-w-0">
+    <a [routerLink]="[isMovie ? '/movies' : '/tv-shows', model.id]">
+      <h6 class="mb-2 font-bold tracking-tight text-white truncate">
+        {{ model.title || model.name }}
+      </h6>
+    </a>
+  </div>
+</article>

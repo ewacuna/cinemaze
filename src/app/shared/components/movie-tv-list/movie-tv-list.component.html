@@ -1,0 +1,16 @@
+<section>
+  @if (showTitle) {
+    <h1
+      class="mb-4 text-2xl font-extrabold leading-none tracking-tight text-white"
+    >
+      {{ title }}
+    </h1>
+  }
+  <swiper-container appSwiper [config]="config">
+    @for (movie of movies; track movie.id) {
+      <swiper-slide class="pb-6">
+        <app-movie-tv-card [model]="movie" [isMovie]="isMovie" />
+      </swiper-slide>
+    }
+  </swiper-container>
+</section>

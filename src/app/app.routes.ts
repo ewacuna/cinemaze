@@ -14,6 +14,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'movies',
+    loadComponent: () =>
+      import('./modules/movies/movies.component').then(
+        (m) => m.MoviesComponent
+      ),
+  },
+  {
     path: '404',
     loadComponent: () =>
       import('./modules/not-found/not-found.component').then(
