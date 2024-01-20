@@ -21,6 +21,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'tv-shows',
+    loadComponent: () =>
+      import('./modules/tv-shows/tv-shows.component').then(
+        (m) => m.TvShowsComponent
+      ),
+  },
+  {
     path: '404',
     loadComponent: () =>
       import('./modules/not-found/not-found.component').then(
