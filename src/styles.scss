@@ -4,19 +4,19 @@
 
 /* Variables */
 :root {
-  --main-color: #EF4444;
-  --secondary-color: #455A64;
-  --main-light-color: #FECACA;
-  --secondary-light-color: #607D8B;
+  --main-color: #ef4444;
+  --secondary-color: #455a64;
+  --main-light-color: #fecaca;
+  --secondary-light-color: #607d8b;
 }
 
 /* Custom Selection */
 ::selection {
-  color: #FFFFFF;
+  color: #ffffff;
   background: var(--main-color);
 }
 
 ::-moz-selection {
-  color: #FFFFFF;
+  color: #ffffff;
   background: var(--main-color);
 }
