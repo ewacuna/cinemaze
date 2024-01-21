@@ -1,0 +1,13 @@
+$fade-x-in-out-padding: 2rem;
+
+.fade-x-in-out {
+  mask-image: linear-gradient(90deg, transparent, black $fade-x-in-out-padding, black calc(100% - #{$fade-x-in-out-padding}), transparent);
+
+  @media (min-width: 768px) {
+    mask-image: linear-gradient(90deg, transparent, black $fade-x-in-out-padding * 2, black calc(100% - #{$fade-x-in-out-padding * 2}), transparent);
+  }
+}
+
+.banner-backdrop {
+  background-color: #020617b3;
+}

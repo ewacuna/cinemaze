@@ -1,1 +1,114 @@
-<p>home works!</p>
+<header class="container grid place-items-center mx-auto pt-4 md:pt-2">
+  <ul
+    aria-label="Trending movies"
+    class="fade-x-in-out relative isolate -z-10 col-start-1 row-start-1 grid max-w-full gap-2 overflow-x-hidden"
+  >
+    <li class="">
+      <ul class="grid grid-flow-col gap-2">
+        @for (movie of nowPlayingMovies; track movie.id) {
+          <li class="relative w-44">
+            <img
+              ngSrc="https://image.tmdb.org/t/p/w300/{{ movie.backdrop_path }}"
+              alt="{{ movie.name }}"
+              class="banner-image select-none object-cover rounded-xl"
+              width="176"
+              height="98"
+            />
+            <span
+              class="banner-image banner-backdrop select-none object-cover rounded-xl absolute inset-0"
+            ></span>
+          </li>
+        }
+      </ul>
+    </li>
+
+    <li class="">
+      <ul class="grid grid-flow-col gap-2">
+        @for (movie of popularMovies; track movie.id) {
+          <li class="relative w-44">
+            <img
+              ngSrc="https://image.tmdb.org/t/p/w300/{{ movie.backdrop_path }}"
+              alt="{{ movie.name }}"
+              class="banner-image select-none object-cover rounded-xl"
+              width="176"
+              height="98"
+            />
+            <span
+              class="banner-image banner-backdrop select-none object-cover rounded-xl absolute inset-0"
+            ></span>
+          </li>
+        }
+      </ul>
+    </li>
+
+    <li class="">
+      <ul class="grid grid-flow-col gap-2">
+        @for (tv of onTheAirTvShows; track tv.id) {
+          <li class="relative w-44">
+            <img
+              ngSrc="https://image.tmdb.org/t/p/w300/{{ tv.backdrop_path }}"
+              alt="{{ tv.title }}"
+              class="banner-image select-none object-cover rounded-xl"
+              width="176"
+              height="98"
+            />
+            <span
+              class="banner-image banner-backdrop select-none object-cover rounded-xl absolute inset-0"
+            ></span>
+          </li>
+        }
+      </ul>
+    </li>
+
+    <li class="">
+      <ul class="grid grid-flow-col gap-2">
+        @for (tv of popularTvShows; track tv.id) {
+          <li class="relative w-44">
+            <img
+              ngSrc="https://image.tmdb.org/t/p/w300/{{ tv.backdrop_path }}"
+              alt="{{ tv.title }}"
+              class="banner-image select-none object-cover rounded-xl"
+              width="176"
+              height="98"
+            />
+            <span
+              class="banner-image banner-backdrop select-none object-cover rounded-xl absolute inset-0"
+            ></span>
+          </li>
+        }
+      </ul>
+    </li>
+
+    <li class="">
+      <ul class="grid grid-flow-col gap-2">
+        @for (tv of topRatedTvShows; track tv.id) {
+          <li class="relative w-44">
+            <img
+              ngSrc="https://image.tmdb.org/t/p/w300/{{ tv.backdrop_path }}"
+              alt="{{ tv.title }}"
+              class="banner-image select-none object-cover rounded-xl"
+              width="176"
+              height="98"
+            />
+            <span
+              class="banner-image banner-backdrop select-none object-cover rounded-xl absolute inset-0"
+            ></span>
+          </li>
+        }
+      </ul>
+    </li>
+  </ul>
+
+  <div class="col-start-1 row-start-1 text-center">
+    <h1 class="text-4xl lg:text-6xl font-extrabold mb-6 leading-none">
+      Movies &amp; TV
+      <br />
+      For <span class="text-main-color">Everyone</span> <br />To Enjoy
+    </h1>
+    <p class="px-6 md:px-56 lg:px-64 text-white">
+      Find the perfect movie for any occasion – family nights, friend
+      gatherings, or quality time with kids. Ensure everyone's happiness during
+      your next movie night with our great recommendations!
+    </p>
+  </div>
+</header>
