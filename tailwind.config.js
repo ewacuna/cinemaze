@@ -7,6 +7,7 @@ module.exports = {
         'secondary-color': 'var(--secondary-color)',
         'main-light-color': 'var(--main-light-color)',
         'secondary-light-color': 'var(--secondary-light-color)',
+        'neutral-4': 'rgb(71 85 105)',
       },
       brightness: {
         25: '.25',
