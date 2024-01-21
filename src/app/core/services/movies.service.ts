@@ -3,7 +3,12 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
-import {IMovieTv, IMovie, IMovieVideos} from '../../shared/models';
+import {
+  IMovieTv,
+  IMovie,
+  IMovieVideos,
+  IMovieGenres,
+} from '../../shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +44,18 @@ export class MoviesService {
   public getMovieVideos(id: string): Observable<IMovieVideos> {
     return this.http.get<IMovieVideos>(
       `${this.baseUrl}movie/${id}/videos?api_key=${this.apiKey}`
+    );
+  }
+
+  public getGenres(): Observable<IMovieGenres> {
+    return this.http.get<IMovieGenres>(
+      `${this.baseUrl}genre/movie/list?api_key=${this.apiKey}&language=${this.language}`
+    );
+  }
+
+  public getMoviesByGenre(id: number): Observable<IMovieTv> {
+    return this.http.get<IMovieTv>(
+      `${this.baseUrl}genre/${id}/movies?api_key=${this.apiKey}`
     );
   }
 }

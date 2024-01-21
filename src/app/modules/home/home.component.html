@@ -1,4 +1,4 @@
-<header class="container grid place-items-center mx-auto pt-4 md:pt-2">
+<header class="container grid place-items-center mx-auto pt-4 md:pt-2 px-2">
   <ul
     aria-label="Trending movies"
     class="fade-x-in-out relative isolate -z-10 col-start-1 row-start-1 grid max-w-full gap-2 overflow-x-hidden"
@@ -112,3 +112,17 @@
     </p>
   </div>
 </header>
+
+<section class="container mx-auto pt-24 md:pt-16 px-2">
+  @if (movieGenreList && movieGenreList.length > 0) {
+    @for (genre of movieGenreList; track genre.id) {
+      <div class="mb-4 md:mb-5 lg:mb-6">
+        <app-movie-tv-list
+          [title]="genre.name"
+          [movies]="genre.results"
+          [isMovie]="true"
+        />
+      </div>
+    }
+  }
+</section>

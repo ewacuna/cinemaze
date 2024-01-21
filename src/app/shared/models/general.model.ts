@@ -1,4 +1,5 @@
 export interface IMovieTv {
+  id: number | string;
   dates: IDates;
   page: number;
   results: IResult[];
@@ -53,4 +54,15 @@ export interface ISpokenLanguage {
 export interface IProductionCountry {
   iso_3166_1: string;
   name: string;
+}
+
+export interface IGenre {
+  id: number;
+  name: string;
+}
+
+export interface IResultsGenre {
+  id: number;
+  name: string;
+  results: IResult[];
 }

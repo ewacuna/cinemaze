@@ -54,3 +54,7 @@ export interface IVideoData {
   id: string;
   url?: SafeResourceUrl;
 }
+
+export interface IMovieGenres {
+  genres: IGenre[];
+}

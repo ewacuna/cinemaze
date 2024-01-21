@@ -1,16 +1,30 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {combineLatestWith, Observable, Subject, take, takeUntil} from 'rxjs';
+import {
+  combineLatestWith,
+  lastValueFrom,
+  Observable,
+  Subject,
+  take,
+  takeUntil,
+} from 'rxjs';
 import {NgForOf, NgOptimizedImage} from '@angular/common';
 
 import {MoviesService, TvShowsService} from '../../core/services';
-import {IMovieTv, IResult} from '../../shared/models';
+import {
+  IGenre,
+  IMovieGenres,
+  IMovieTv,
+  IResult,
+  IResultsGenre,
+} from '../../shared/models';
 import {CustomError} from '../../shared/models/errors.model';
+import {MovieTvListComponent} from '../../shared/components';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgForOf, NgOptimizedImage],
+  imports: [NgForOf, NgOptimizedImage, MovieTvListComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -27,6 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public onTheAirTvShows: Array<IResult> = [];
   public topRatedTvShows: Array<IResult> = [];
   public popularTvShows: Array<IResult> = [];
+  public movieGenreList: IResultsGenre[] = [];
 
   // State
   public isLoading = false;
@@ -35,6 +50,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.titleService.setTitle('Cinemaze | Home');
     this.getAllMovies();
     this.getAllTvShows();
+    this.getAllMovieGenres();
   }
 
   private getAllMovies(): void {
@@ -75,6 +91,26 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Fetches movie genres and then retrieves movies for each genre.
+   * The method uses asynchronous operations to ensure that the movies for each genre
+   * are fetched sequentially.
+   */
+  private getAllMovieGenres(): void {
+    this.getMovieGenres().subscribe({
+      next: async (value: IMovieGenres): Promise<void> => {
+        const movieGenreList: IGenre[] = value.genres || [];
+        for (const movieGenre of movieGenreList) {
+          await this.getMoviesByGenre(movieGenre).then();
+        }
+      },
+      error: (error: CustomError): void => {
+        this.isLoading = false;
+        console.error(error.status_message);
+      },
+    });
+  }
+
   private getMovies(type: string, page: number): Observable<IMovieTv> {
     return this.moviesService
       .getMovies(type, page)
@@ -85,6 +121,34 @@ export class HomeComponent implements OnInit, OnDestroy {
     return this.tvShowsService
       .getTVShows(type, page)
       .pipe(take(1), takeUntil(this.destroy$));
+  }
+
+  private getMovieGenres(): Observable<IMovieGenres> {
+    return this.moviesService
+      .getGenres()
+      .pipe(take(1), takeUntil(this.destroy$));
+  }
+
+  private async getMoviesByGenre(genre: IGenre): Promise<void> {
+    const movie$: Observable<IMovieTv> = this.moviesService
+      .getMoviesByGenre(genre.id)
+      .pipe(take(1), takeUntil(this.destroy$));
+
+    await lastValueFrom(movie$)
+      .then((value: IMovieTv): void => {
+        this.movieGenreList.push({
+          id: genre.id,
+          name: genre.name,
+          results: value.results || [],
+        });
+      })
+      .catch((): void => {
+        this.movieGenreList.push({
+          id: genre.id,
+          name: genre.name,
+          results: [],
+        });
+      });
   }
 
   ngOnDestroy(): void {
