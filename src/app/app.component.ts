@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {Component, inject, OnInit} from '@angular/core';
+import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
+import {ViewportScroller} from '@angular/common';
 import {initFlowbite} from 'flowbite';
+import {filter} from 'rxjs';
 
 import {BodyComponent, NavbarComponent} from './shared/components';
 
@@ -12,10 +14,31 @@ import {BodyComponent, NavbarComponent} from './shared/components';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
+  // Services
+  private viewportScroller: ViewportScroller = inject(ViewportScroller);
+  private router: Router = inject(Router);
+
   // Properties
   public title = 'Cinemaze';
 
   ngOnInit(): void {
     initFlowbite();
+    this.subscribeToRouterEvents();
+  }
+
+  private subscribeToRouterEvents(): void {
+    this.router.events
+      .pipe(
+        filter(
+          (event): event is NavigationEnd => event instanceof NavigationEnd
+        )
+      )
+      .subscribe((): void => {
+        this.scrollToTop();
+      });
+  }
+
+  private scrollToTop(): void {
+    this.viewportScroller.scrollToPosition([0, 0]);
   }
 }

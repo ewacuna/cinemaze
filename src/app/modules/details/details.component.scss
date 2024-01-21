@@ -1,0 +1,21 @@
+$padding-small: 4rem 1rem;
+$padding-large: 8rem 2rem;
+
+.details {
+  padding: $padding-small;
+
+  @media (min-width: 768px) {
+    padding: $padding-large;
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      margin: 0 auto;
+      max-width: 1024px;
+    }
+  }
+}
+
+.genre {
+  box-shadow: inset 0 0 0 1px #fff;
+}

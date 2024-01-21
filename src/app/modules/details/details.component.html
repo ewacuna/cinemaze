@@ -1,0 +1,81 @@
+@defer (when !isLoading) {
+  <section class="details relative isolate shadow-down">
+    <img
+      [alt]="isMovie ? movie.title : tv.name"
+      src="{{
+        'https://image.tmdb.org/t/p/w1280' +
+          (isMovie ? movie.backdrop_path : tv.backdrop_path)
+      }}"
+      class="!absolute inset-0 -z-10 h-full w-full object-cover brightness-25"
+    />
+
+    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-red-700/25"></div>
+
+    <article class="container grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Poster -->
+      <div class="flex justify-center md:justify-end">
+        <img
+          [alt]="isMovie ? movie.title : tv.name"
+          ngSrc="https://image.tmdb.org/t/p/w300_and_h450_bestv2/{{
+            isMovie ? movie.poster_path : tv.poster_path
+          }}"
+          [height]="450"
+          [width]="300"
+          class="h-fit relative rounded-xl select-none"
+          appMissingPicture
+        />
+      </div>
+
+      <!-- Information -->
+      <div class="col-span-2 grid gap-4 self-center">
+        <h1
+          class="sm:text-4xl xs:text-3xl text-[28.75px] font-extrabold sm:leading-tight xs:leading-normal"
+        >
+          {{ isMovie ? movie.title : tv.name }}
+        </h1>
+
+        <ul
+          class="flex flex-row items-center md:gap-4 sm:gap-[14px] xs:gap-3 gap-[6px] flex-wrap transform-none"
+        >
+          @for (genre of isMovie ? movie.genres : tv.genres; track genre) {
+            <span
+              class="genre md:text-[12.75px] sm:text-[12px] xs:text-[11.75px] text-[10.75px] sm:py-1 py-[2.75px] sm:px-3 px-[10px] rounded-full dark:text-gray-300"
+            >
+              {{ genre.name }}
+            </span>
+          }
+        </ul>
+
+        <div>
+          @if ((isMovie && movie.tagline) || (!isMovie && tv.tagline)) {
+            <p class="text-neutral-50 mb-2">
+              <i>{{ isMovie ? movie.tagline : tv.tagline }}</i>
+            </p>
+          }
+          <h4
+            class="font-bold md:text-[18px] sm:text-[16.75px] xs:text-[15.75px] text-[14.75px] mb-1"
+          >
+            Overview
+          </h4>
+          @if ((isMovie && movie.overview) || (!isMovie && tv.overview)) {
+            <p>{{ isMovie ? movie.overview : tv.overview }}</p>
+          } @else {
+            <p>No description for {{ isMovie ? movie.title : tv.name }}</p>
+          }
+        </div>
+      </div>
+    </article>
+  </section>
+
+  @if (isMovie) {
+    <app-movie-info
+      [movie]="movie"
+      [recommendedMovies]="recommendedMovies"
+      [movieVideos]="movieVideos"
+    />
+  } @else {
+    <app-tv-show-info [tvShow]="tv" [recommendedTvShows]="recommendedTvShows" />
+  }
+} @placeholder {
+  <app-spinner />
+}

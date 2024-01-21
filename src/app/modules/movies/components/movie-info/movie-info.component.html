@@ -1,0 +1,126 @@
+<section class="custom-info flex justify-center">
+  <ul
+    class="block w-full p-6 border rounded-lg shadow bg-gray-800 border-gray-700 max-w-[980px]"
+  >
+    <li class="mb-2">
+      <h3 class="text-xl font-bold text-white mb-1">Runtime</h3>
+      <p>{{ movie.runtime ? movie.time : "Unknown" }}</p>
+    </li>
+
+    <li class="mb-2">
+      <h3 class="text-xl font-bold text-white mb-1">Genres</h3>
+      <p>
+        @for (genre of movie.genres; track genre.id; let last = $last) {
+          {{ genre.name }}{{ !last ? ", " : "" }}
+        } @empty {
+          Unknown
+        }
+      </p>
+    </li>
+
+    <li class="mb-2">
+      <h3 class="text-xl font-bold text-white mb-1">Budget</h3>
+      <p>
+        @if (movie.budget) {
+          {{ movie.budget | currency }}
+        } @else {
+          Unknown
+        }
+      </p>
+    </li>
+
+    <li class="mb-2">
+      <h3 class="text-xl font-bold text-white mb-1">Revenue</h3>
+      <p>
+        @if (movie.revenue) {
+          {{ movie.revenue | currency }}
+        } @else {
+          Unknown
+        }
+      </p>
+    </li>
+
+    <li class="mb-2">
+      <h3 class="text-xl font-bold text-white mb-1">Status</h3>
+      <p>{{ movie.status ? movie.status : "Unknown" }}</p>
+    </li>
+
+    <li class="mb-2">
+      <h3 class="text-xl font-bold text-white mb-1">Languages</h3>
+      <p>
+        @for (
+          language of movie.spoken_languages;
+          track language.iso_639_1;
+          let last = $last
+        ) {
+          {{ language.name }}{{ !last ? ", " : "" }}
+        } @empty {
+          Unknown
+        }
+      </p>
+    </li>
+  </ul>
+</section>
+
+<section class="custom-info !pt-0 flex justify-center">
+  <div class="block w-full max-w-[980px]">
+    <h3 class="text-3xl font-bold text-white mb-6">
+      Trailers
+      {{ trailerList.length > 0 ? "(" + trailerList.length + ")" : "" }}
+    </h3>
+
+    @if (trailerList.length > 0) {
+      <div class="relative isolate">
+        <ul
+          class="relative flex touch-manipulation snap-x snap-mandatory scroll-pl-8 gap-2 overflow-x-auto md:scroll-pl-16 fade-x-out"
+        >
+          @for (trailer of trailerList; track trailer.id) {
+            <li class="shrink-0 snap-start">
+              <iframe
+                class="aspect-video w-80 rounded-[0.75rem]"
+                [src]="trailer['url']"
+                title="YouTube Video Player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen=""
+                data-dashlane-frameid="221"
+              >
+              </iframe>
+            </li>
+          }
+        </ul>
+      </div>
+    } @else {
+      <div class="w-full flex justify-center py-8">
+        <h6 class="text-lg font-bold text-white">
+          There are no available trailers for this movie yet
+        </h6>
+      </div>
+    }
+  </div>
+</section>
+
+<section class="custom-info !pt-0 flex justify-center">
+  <div class="block w-full max-w-[980px]">
+    <h3 class="text-3xl font-bold text-white mb-6">
+      Recommendations
+      {{
+        recommendedMovies.length > 0 ? "(" + recommendedMovies.length + ")" : ""
+      }}
+    </h3>
+
+    @if (recommendedMovies.length > 0) {
+      <app-movie-tv-list
+        [showTitle]="false"
+        [movies]="recommendedMovies"
+        [isMovie]="true"
+        [isSmallView]="true"
+      />
+    } @else {
+      <div class="w-full flex justify-center py-8">
+        <h6 class="text-lg font-bold text-white">
+          There are no film recommendations yet
+        </h6>
+      </div>
+    }
+  </div>
+</section>

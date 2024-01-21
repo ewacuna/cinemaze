@@ -28,6 +28,20 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'movies/:id',
+    loadComponent: () =>
+      import('./modules/details/details.component').then(
+        (m) => m.DetailsComponent
+      ),
+  },
+  {
+    path: 'tv-shows/:id',
+    loadComponent: () =>
+      import('./modules/details/details.component').then(
+        (m) => m.DetailsComponent
+      ),
+  },
+  {
     path: '404',
     loadComponent: () =>
       import('./modules/not-found/not-found.component').then(
