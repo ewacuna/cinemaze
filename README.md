@@ -22,4 +22,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development Server
 
+Head over to [https://developer.themoviedb.org](https://developer.themoviedb.org/) and create a new API key. Edit the [environment.ts](/src/environments/environment.development.ts) file with your Movie DB API as follows:
+```typescript
+theMovieDBAPIKey: 'your-movie-db-api-key'
+```
+
 Run `npm install` and then `npm run dev` for a dev server. Navigate to `http://localhost:5100/`. The application will automatically reload if you change any of the source files.
