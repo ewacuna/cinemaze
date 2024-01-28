@@ -8,7 +8,7 @@ import {
   take,
   takeUntil,
 } from 'rxjs';
-import {NgForOf, NgOptimizedImage} from '@angular/common';
+import {NgOptimizedImage} from '@angular/common';
 
 import {MoviesService, TvShowsService} from '../../core/services';
 import {
@@ -24,7 +24,7 @@ import {MovieTvListComponent} from '../../shared/components';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgForOf, NgOptimizedImage, MovieTvListComponent],
+  imports: [NgOptimizedImage, MovieTvListComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

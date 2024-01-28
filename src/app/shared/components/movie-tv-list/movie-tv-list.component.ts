@@ -1,5 +1,4 @@
 import {Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit} from '@angular/core';
-import {NgForOf} from '@angular/common';
 import {SwiperOptions} from 'swiper/types';
 import {RouterLink} from '@angular/router';
 
@@ -10,7 +9,7 @@ import {MovieTvCardComponent} from '../movie-tv-card/movie-tv-card.component';
 @Component({
   selector: 'app-movie-tv-list',
   standalone: true,
-  imports: [NgForOf, SwiperDirective, MovieTvCardComponent, RouterLink],
+  imports: [SwiperDirective, MovieTvCardComponent, RouterLink],
   templateUrl: './movie-tv-list.component.html',
   styles: ``,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

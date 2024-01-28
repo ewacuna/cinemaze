@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {DatePipe, DecimalPipe, NgIf, NgOptimizedImage} from '@angular/common';
+import {DatePipe, DecimalPipe, NgOptimizedImage} from '@angular/common';
 import {RouterLink} from '@angular/router';
 
 import {ImgMissingDirective} from '../../directives';
@@ -10,7 +10,6 @@ import {IResult} from '../../models';
   standalone: true,
   imports: [
     NgOptimizedImage,
-    NgIf,
     RouterLink,
     ImgMissingDirective,
     DecimalPipe,

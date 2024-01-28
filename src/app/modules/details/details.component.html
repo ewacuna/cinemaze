@@ -1,4 +1,4 @@
-@defer (when !isLoading) {
+@defer (when !isLoading()) {
   <section class="details relative isolate shadow-down">
     <img
       [alt]="isMovie ? movie.title : tv.name"

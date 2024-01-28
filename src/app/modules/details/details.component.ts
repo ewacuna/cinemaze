@@ -1,8 +1,15 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {combineLatestWith, Observable, Subject, take, takeUntil} from 'rxjs';
-import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
+import {NgOptimizedImage} from '@angular/common';
 
 import {
   IMovie,
@@ -24,8 +31,6 @@ import {TvShowInfoComponent} from '../tv-shows/components';
   standalone: true,
   imports: [
     NgOptimizedImage,
-    NgForOf,
-    NgIf,
     SpinnerComponent,
     ImgMissingDirective,
     MovieInfoComponent,
@@ -53,7 +58,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   // State
   public isMovie: boolean;
-  public isLoading = false;
+  public isLoading: WritableSignal<boolean> = signal(false);
 
   ngOnInit(): void {
     this.contentType = this.router.url.split('/')[1];
@@ -63,7 +68,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
       this.isMovie = this.contentType === 'movies';
 
-      this.isLoading = true;
+      this.isLoading.set(true);
       if (this.isMovie) {
         this.getMovie(id);
       } else {
@@ -85,10 +90,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.recommendedMovies = recommended.results ?? [];
         this.movieVideos = videos.results ?? [];
         this.titleService.setTitle('Cinemaze | ' + this.movie.title);
-        this.isLoading = false;
+        this.isLoading.set(false);
       },
       error: (error: CustomError): void => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         console.error(error.status_message);
       },
     });
@@ -105,10 +110,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.tv = tvShow;
         this.recommendedTvShows = recommended.results ?? [];
         this.titleService.setTitle('Cinemaze | ' + this.tv.name);
-        this.isLoading = false;
+        this.isLoading.set(false);
       },
       error: (error: CustomError): void => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         console.error(error.status_message);
       },
     });

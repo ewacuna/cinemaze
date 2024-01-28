@@ -1,4 +1,11 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {combineLatestWith, Observable, Subject, take, takeUntil} from 'rxjs';
 
@@ -26,7 +33,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
   public popularMovies: Array<IResult> = [];
 
   // States
-  public isLoading: boolean;
+  public isLoading: WritableSignal<boolean> = signal(true);
 
   ngOnInit(): void {
     this.titleService.setTitle('Cinemaze | Movies');
@@ -34,7 +41,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
   }
 
   private getAllMovies(): void {
-    this.isLoading = true;
+    this.isLoading.set(true);
     const nowPlaying$: Observable<IMovieTv> = this.getMovies('now_playing', 1);
     const popular$: Observable<IMovieTv> = this.getMovies('popular', 1);
     const upcoming$: Observable<IMovieTv> = this.getMovies('upcoming', 1);
@@ -44,10 +51,10 @@ export class MoviesComponent implements OnInit, OnDestroy {
         this.handleMoviesResponse('now_playing', nowPlaying.results);
         this.handleMoviesResponse('popular', popular.results);
         this.handleMoviesResponse('upcoming', upcoming.results);
-        this.isLoading = false;
+        this.isLoading.set(false);
       },
       error: (error: CustomError): void => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         console.error(error.status_message);
       },
     });

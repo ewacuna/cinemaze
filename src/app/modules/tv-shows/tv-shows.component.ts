@@ -1,4 +1,11 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {combineLatestWith, Observable, Subject, take, takeUntil} from 'rxjs';
 
@@ -26,7 +33,7 @@ export class TvShowsComponent implements OnInit, OnDestroy {
   public popularTvShows: Array<IResult> = [];
 
   // States
-  public isLoading: boolean;
+  public isLoading: WritableSignal<boolean> = signal(true);
 
   ngOnInit(): void {
     this.titleService.setTitle('Cinemaze | TV Shows');
@@ -34,7 +41,7 @@ export class TvShowsComponent implements OnInit, OnDestroy {
   }
 
   private getAllTvShows(): void {
-    this.isLoading = true;
+    this.isLoading.set(true);
     const onTheAir$: Observable<IMovieTv> = this.getTvShows('on_the_air', 1);
     const popular$: Observable<IMovieTv> = this.getTvShows('popular', 1);
     const topRated$: Observable<IMovieTv> = this.getTvShows('top_rated', 1);
@@ -44,10 +51,10 @@ export class TvShowsComponent implements OnInit, OnDestroy {
         this.handleTvShowsResponse('on_the_air', onTheAir.results);
         this.handleTvShowsResponse('popular', popular.results);
         this.handleTvShowsResponse('top_rated', topRated.results);
-        this.isLoading = false;
+        this.isLoading.set(false);
       },
       error: (error: CustomError): void => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         console.error(error.status_message);
       },
     });
