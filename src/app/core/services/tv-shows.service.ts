@@ -16,7 +16,7 @@ export class TvShowsService {
   private apiKey: string = environment.theMovieDBAPIKey;
   private language: string = 'en-US';
 
-  public getTVShows(type: string, page: number): Observable<IMovieTv> {
+  public getTVShows(type: string, page: number = 1): Observable<IMovieTv> {
     return this.http.get<IMovieTv>(
       `tv/${type}?api_key=${this.apiKey}&page=${page}&language=${this.language}`
     );

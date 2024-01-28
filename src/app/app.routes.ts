@@ -42,6 +42,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'view',
+    loadComponent: () =>
+      import('./modules/view-all/view-all.component').then(
+        (m) => m.ViewAllComponent
+      ),
+  },
+  {
     path: '404',
     loadComponent: () =>
       import('./modules/not-found/not-found.component').then(

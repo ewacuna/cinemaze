@@ -1,10 +1,23 @@
 <section>
   @if (showTitle) {
-    <h1
-      class="mb-4 text-2xl font-extrabold leading-none tracking-tight text-white"
-    >
-      {{ title }}
-    </h1>
+    <div class="flex justify-between mb-4">
+      <h1
+        class="text-2xl font-extrabold leading-none tracking-tight text-white"
+      >
+        {{ title }}
+      </h1>
+
+      <div>
+        <button
+          type="button"
+          class="px-2.5 py-1.5 text-xs font-medium focus:outline-none rounded-full border focus:z-10 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700"
+          [routerLink]="['/view']"
+          [queryParams]="queryParams"
+        >
+          View All
+        </button>
+      </div>
+    </div>
   }
   <swiper-container appSwiper [config]="config">
     @for (movie of movies; track movie.id) {

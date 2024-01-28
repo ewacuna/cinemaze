@@ -1,6 +1,7 @@
 import {Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit} from '@angular/core';
 import {NgForOf} from '@angular/common';
 import {SwiperOptions} from 'swiper/types';
+import {RouterLink} from '@angular/router';
 
 import {IResult} from '../../models';
 import {SwiperDirective} from '../../directives';
@@ -9,7 +10,7 @@ import {MovieTvCardComponent} from '../movie-tv-card/movie-tv-card.component';
 @Component({
   selector: 'app-movie-tv-list',
   standalone: true,
-  imports: [NgForOf, SwiperDirective, MovieTvCardComponent],
+  imports: [NgForOf, SwiperDirective, MovieTvCardComponent, RouterLink],
   templateUrl: './movie-tv-list.component.html',
   styles: ``,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -21,6 +22,11 @@ export class MovieTvListComponent implements OnInit {
   @Input() isMovie: boolean;
   @Input() showTitle = true;
   @Input() isSmallView = false;
+  @Input() withGenre: number;
+  @Input() withType: string;
+
+  // Properties
+  public queryParams: {q?: string; type?: string; genre?: number} = {};
 
   // Swiper Settings
   public config: SwiperOptions = {
@@ -61,6 +67,13 @@ export class MovieTvListComponent implements OnInit {
 
   ngOnInit(): void {
     this.setSmallView();
+    this.createQueryParams();
+  }
+
+  private createQueryParams(): void {
+    this.queryParams.q = this.isMovie ? 'movie' : 'tv-show';
+    this.withType && (this.queryParams.type = this.withType);
+    this.withGenre && (this.queryParams.genre = this.withGenre);
   }
 
   private setSmallView(): void {

@@ -22,7 +22,7 @@ export class MoviesService {
   private language: string = 'en-US';
   private region: string = 'US';
 
-  public getMovies(type: string, page: number): Observable<IMovieTv> {
+  public getMovies(type: string, page: number = 1): Observable<IMovieTv> {
     return this.http.get<IMovieTv>(
       `movie/${type}?api_key=${this.apiKey}&page=${page}&language=${this.language}&region=${this.region}`
     );
@@ -30,6 +30,15 @@ export class MoviesService {
 
   public getMovie(id: string): Observable<IMovie> {
     return this.http.get<IMovie>(`movie/${id}?api_key=${this.apiKey}`);
+  }
+
+  public getMovieWithGenre(
+    genreId: string,
+    page: number = 1
+  ): Observable<IMovieTv> {
+    return this.http.get<IMovieTv>(
+      `discover/movie?with_genres=${genreId}&api_key=${this.apiKey}&page=${page}`
+    );
   }
 
   public getRecommendedMovies(id: string): Observable<IMovieTv> {
