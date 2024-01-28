@@ -1,5 +1,5 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {DatePipe, NgForOf} from '@angular/common';
+import {Component, input, InputSignal} from '@angular/core';
+import {DatePipe} from '@angular/common';
 
 import {IResult, ITvShow} from '../../../../shared/models';
 import {MovieTvListComponent} from '../../../../shared/components';
@@ -7,18 +7,12 @@ import {MovieTvListComponent} from '../../../../shared/components';
 @Component({
   selector: 'app-tv-show-info',
   standalone: true,
-  imports: [DatePipe, NgForOf, MovieTvListComponent],
+  imports: [DatePipe, MovieTvListComponent],
   templateUrl: './tv-show-info.component.html',
   styleUrl: './tv-show-info.component.scss',
 })
-export class TvShowInfoComponent implements OnChanges {
+export class TvShowInfoComponent {
   // Inputs
-  @Input() tvShow: ITvShow;
-  @Input() recommendedTvShows: IResult[] = [];
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['tvShow']) {
-      this.tvShow = changes['tvShow'].currentValue;
-    }
-  }
+  tvShow: InputSignal<ITvShow> = input.required<ITvShow>();
+  recommendedTvShows: InputSignal<IResult[]> = input<IResult[]>([]);
 }

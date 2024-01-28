@@ -5,7 +5,7 @@
     <li class="mb-2">
       <h3 class="text-xl font-bold text-white mb-1">Genres</h3>
       <p>
-        @for (genre of tvShow.genres; track genre.id; let last = $last) {
+        @for (genre of tvShow().genres; track genre.id; let last = $last) {
           {{ genre.name }}{{ !last ? ", " : "" }}
         } @empty {
           Unknown
@@ -17,8 +17,8 @@
       <h3 class="text-xl font-bold text-white mb-1">First Air Date</h3>
       <p>
         {{
-          tvShow.first_air_date
-            ? (tvShow.first_air_date | date: "MMMM d, y")
+          tvShow().first_air_date
+            ? (tvShow().first_air_date | date: "MMMM d, y")
             : "Unknown"
         }}
       </p>
@@ -28,7 +28,7 @@
       <h3 class="text-xl font-bold text-white mb-1">Created By</h3>
       <p>
         @for (
-          createdBy of tvShow.created_by;
+          createdBy of tvShow().created_by;
           track createdBy.id;
           let last = $last
         ) {
@@ -46,16 +46,16 @@
     <h3 class="text-3xl font-bold text-white mb-6">
       Recommendations
       {{
-        recommendedTvShows.length > 0
-          ? "(" + recommendedTvShows.length + ")"
+        recommendedTvShows().length > 0
+          ? "(" + recommendedTvShows().length + ")"
           : ""
       }}
     </h3>
 
-    @if (recommendedTvShows.length > 0) {
+    @if (recommendedTvShows().length > 0) {
       <app-movie-tv-list
         [showTitle]="false"
-        [movies]="recommendedTvShows"
+        [movies]="recommendedTvShows()"
         [isMovie]="false"
         [isSmallView]="true"
       />

@@ -1,4 +1,11 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {
   combineLatestWith,
@@ -19,12 +26,12 @@ import {
   IResultsGenre,
 } from '../../shared/models';
 import {CustomError} from '../../shared/models/errors.model';
-import {MovieTvListComponent} from '../../shared/components';
+import {MovieTvListComponent, SpinnerComponent} from '../../shared/components';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgOptimizedImage, MovieTvListComponent],
+  imports: [NgOptimizedImage, MovieTvListComponent, SpinnerComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -36,15 +43,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // Properties
   private destroy$: Subject<void> = new Subject<void>();
-  public nowPlayingMovies: Array<IResult> = [];
-  public popularMovies: Array<IResult> = [];
-  public onTheAirTvShows: Array<IResult> = [];
-  public topRatedTvShows: Array<IResult> = [];
-  public popularTvShows: Array<IResult> = [];
+  public nowPlayingMovies: WritableSignal<IResult[]> = signal<IResult[]>([]);
+  public popularMovies: WritableSignal<IResult[]> = signal<IResult[]>([]);
+  public onTheAirTvShows: WritableSignal<IResult[]> = signal<IResult[]>([]);
+  public topRatedTvShows: WritableSignal<IResult[]> = signal<IResult[]>([]);
+  public popularTvShows: WritableSignal<IResult[]> = signal<IResult[]>([]);
   public movieGenreList: IResultsGenre[] = [];
 
   // State
-  public isLoading = false;
+  public isLoading: WritableSignal<boolean> = signal<boolean>(false);
 
   ngOnInit(): void {
     this.titleService.setTitle('Cinemaze | Home');
@@ -54,38 +61,38 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private getAllMovies(): void {
-    this.isLoading = true;
+    this.isLoading.set(true);
     const nowPlaying$: Observable<IMovieTv> = this.getMovies('now_playing', 1);
     const popular$: Observable<IMovieTv> = this.getMovies('popular', 1);
 
     nowPlaying$.pipe(combineLatestWith(popular$)).subscribe({
       next: ([nowPlaying, popular]): void => {
-        this.nowPlayingMovies = nowPlaying.results || [];
-        this.popularMovies = popular.results || [];
-        this.isLoading = false;
+        this.nowPlayingMovies.set(nowPlaying.results || []);
+        this.popularMovies.set(popular.results || []);
+        this.isLoading.set(false);
       },
       error: (error: CustomError): void => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         console.error(error.status_message);
       },
     });
   }
 
   private getAllTvShows(): void {
-    this.isLoading = true;
+    this.isLoading.set(true);
     const onTheAir$: Observable<IMovieTv> = this.getTvShows('on_the_air', 1);
     const popular$: Observable<IMovieTv> = this.getTvShows('popular', 1);
     const topRated$: Observable<IMovieTv> = this.getTvShows('top_rated', 1);
 
     onTheAir$.pipe(combineLatestWith(popular$, topRated$)).subscribe({
       next: ([onTheAir, popular, topRated]): void => {
-        this.onTheAirTvShows = onTheAir.results || [];
-        this.popularTvShows = popular.results || [];
-        this.topRatedTvShows = topRated.results || [];
-        this.isLoading = false;
+        this.onTheAirTvShows.set(onTheAir.results || []);
+        this.popularTvShows.set(popular.results || []);
+        this.topRatedTvShows.set(topRated.results || []);
+        this.isLoading.set(false);
       },
       error: (error: CustomError): void => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         console.error(error.status_message);
       },
     });
@@ -105,7 +112,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
       },
       error: (error: CustomError): void => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         console.error(error.status_message);
       },
     });

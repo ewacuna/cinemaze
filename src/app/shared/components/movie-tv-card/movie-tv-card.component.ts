@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input, InputSignal} from '@angular/core';
 import {DatePipe, DecimalPipe, NgOptimizedImage} from '@angular/common';
 import {RouterLink} from '@angular/router';
 
@@ -20,6 +20,6 @@ import {IResult} from '../../models';
 })
 export class MovieTvCardComponent {
   // Inputs
-  @Input() model: IResult;
-  @Input() isMovie: boolean;
+  model: InputSignal<IResult> = input.required<IResult>();
+  isMovie: InputSignal<boolean> = input.required<boolean>();
 }
