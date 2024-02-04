@@ -10,7 +10,7 @@
           Search
         </h1>
       </div>
-      <form class="w-full max-w-[710px] mx-auto">
+      <form class="w-full max-w-[710px] mx-auto" [formGroup]="searchForm">
         <label for="search" class="mb-2 text-sm font-medium sr-only text-white">
           Search a movie
         </label>
@@ -39,10 +39,27 @@
             id="search"
             class="block w-full p-4 ps-10 text-sm border rounded-lg bg-gray-800 border-gray-700 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
             placeholder="Search..."
+            formControlName="search"
             required
           />
         </div>
       </form>
+
+      @defer (when !isLoading()) {
+        <section
+          class="max-w-[940px] mx-auto md:px-8 sm:px-6 px-4 xl:px-0 pt-8 md:pt-6"
+        >
+          <div class="flex flex-wrap xs:gap-4 gap-[14px] justify-center">
+            @for (item of media(); track item.id) {
+              <div
+                class="flex flex-col xs:gap-4 gap-2 min-w-[170px] max-w-[170px] md:max-w-[190px] lg:mb-6 md:mb-5 sm:mb-4 mb-[10px]"
+              >
+                <app-movie-tv-card [model]="item" [isMovie]="true" />
+              </div>
+            }
+          </div>
+        </section>
+      }
     </div>
   </div>
 </section>
