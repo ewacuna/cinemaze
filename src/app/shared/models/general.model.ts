@@ -13,6 +13,7 @@ export interface IResult {
   first_air_date?: string;
   genre_ids: number[];
   id: number;
+  isMovie?: boolean;
   media_type?: string;
   name?: string;
   origin_country?: string[];

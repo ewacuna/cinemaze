@@ -83,10 +83,10 @@ export class SearchComponent implements OnInit, OnDestroy {
       next: ([movies, tvShows]): void => {
         this.isLoading.set(false);
         const moviesData: IResult[] = movies.results
-          ? movies.results?.slice(0, 9)
+          ? movies.results?.slice(0, 9).map((m) => ({...m, isMovie: true}))
           : [];
         const tvShowsData: IResult[] = tvShows.results
-          ? tvShows.results?.slice(0, 9)
+          ? tvShows.results?.slice(0, 9).map((m) => ({...m, isMovie: false}))
           : [];
 
         this.media.set([...moviesData, ...tvShowsData]);
