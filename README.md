@@ -8,7 +8,9 @@
 
 Cinemaze is a web app for exploring movies and TV shows using The Movie Database (TMDB) API. It includes search, category listings, details, recommendations, and movie trailers.
 
-Built with Angular 17. Demo coming soon.
+Built with Angular 17.
+
+✨ [Live Demo](https://ewacuna.github.io/cinemaze/)
 
 ## Technologies Used
 
