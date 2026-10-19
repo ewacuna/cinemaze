@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TvShowInfoComponent } from './tv-show-info.component';
+import {TvShowInfoComponent} from './tv-show-info.component';
 
 describe('TvShowInfoComponent', () => {
   let component: TvShowInfoComponent;
@@ -8,12 +8,16 @@ describe('TvShowInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TvShowInfoComponent]
-    })
-    .compileComponents();
-    
+      imports: [TvShowInfoComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(TvShowInfoComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('tvShow', {
+      created_by: [],
+      networks: [],
+      status: 'Ended',
+    });
     fixture.detectChanges();
   });
 

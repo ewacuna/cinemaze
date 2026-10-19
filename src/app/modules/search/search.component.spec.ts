@@ -4,7 +4,11 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import {provideHttpClient, withInterceptors} from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptors,
+  withXhr,
+} from '@angular/common/http';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -51,7 +55,7 @@ describe('SearchComponent', () => {
       imports: [SearchComponent],
       providers: [
         provideRouter([]),
-        provideHttpClient(withInterceptors([httpInterceptor])),
+        provideHttpClient(withXhr(), withInterceptors([httpInterceptor])),
         provideHttpClientTesting(),
         {
           provide: ActivatedRoute,

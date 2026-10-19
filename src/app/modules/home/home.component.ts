@@ -6,6 +6,7 @@ import {
   OnInit,
   signal,
   WritableSignal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {NgOptimizedImage, NgTemplateOutlet} from '@angular/common';
@@ -29,7 +30,6 @@ interface HomeShelf {
 
 @Component({
   selector: 'app-home',
-  standalone: true,
   imports: [
     NgOptimizedImage,
     NgTemplateOutlet,
@@ -37,6 +37,7 @@ interface HomeShelf {
     RouterLink,
   ],
   templateUrl: './home.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit, OnDestroy {
@@ -187,12 +188,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     request: Observable<IMovieTv>,
     target: WritableSignal<IResult[]>
   ): void {
-    request
-      .pipe(take(1), takeUntil(this.destroy$))
-      .subscribe({
-        next: (response) => target.set(response.results || []),
-        error: () => target.set([]),
-      });
+    request.pipe(take(1), takeUntil(this.destroy$)).subscribe({
+      next: (response) => target.set(response.results || []),
+      error: () => target.set([]),
+    });
   }
 
   ngOnDestroy(): void {

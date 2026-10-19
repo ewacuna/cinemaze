@@ -1,14 +1,18 @@
-import {Directive, ElementRef, HostListener, Renderer2} from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  inject,
+  Renderer2,
+} from '@angular/core';
 
 @Directive({
   selector: 'img[appMissingPicture]',
   standalone: true,
 })
 export class ImgMissingDirective {
-  constructor(
-    private el: ElementRef,
-    private renderer: Renderer2
-  ) {}
+  private el = inject<ElementRef<HTMLImageElement>>(ElementRef);
+  private renderer = inject(Renderer2);
 
   @HostListener('error')
   private onError(): void {

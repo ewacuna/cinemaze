@@ -7,6 +7,7 @@ import {
   Signal,
   signal,
   WritableSignal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {DomSanitizer, SafeResourceUrl, Title} from '@angular/platform-browser';
@@ -44,7 +45,6 @@ const OVERVIEW_CLAMP_LENGTH = 280;
 
 @Component({
   selector: 'app-details',
-  standalone: true,
   imports: [
     NgOptimizedImage,
     RouterLink,
@@ -52,6 +52,7 @@ const OVERVIEW_CLAMP_LENGTH = 280;
     MovieInfoComponent,
     TvShowInfoComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './details.component.html',
 })
 export class DetailsComponent {

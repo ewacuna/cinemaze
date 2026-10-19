@@ -1,6 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {provideHttpClient, withXhr} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
+import {provideRouter} from '@angular/router';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ViewAllComponent } from './view-all.component';
+import {ViewAllComponent} from './view-all.component';
 
 describe('ViewAllComponent', () => {
   let component: ViewAllComponent;
@@ -8,10 +11,14 @@ describe('ViewAllComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ViewAllComponent]
-    })
-    .compileComponents();
-    
+      imports: [ViewAllComponent],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(withXhr()),
+        provideHttpClientTesting(),
+      ],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ViewAllComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

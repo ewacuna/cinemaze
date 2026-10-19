@@ -4,6 +4,7 @@ import {
   Directive,
   ElementRef,
   HostListener,
+  inject,
   Input,
   signal,
 } from '@angular/core';
@@ -21,12 +22,10 @@ export class SwiperDirective {
   readonly isBeginning = signal(true);
   readonly isEnd = signal(true);
   private destroyed = false;
+  private element = inject<ElementRef<SwiperContainer>>(ElementRef);
 
-  constructor(
-    private element: ElementRef<SwiperContainer>,
-    destroyRef: DestroyRef
-  ) {
-    destroyRef.onDestroy(() => (this.destroyed = true));
+  constructor() {
+    inject(DestroyRef).onDestroy(() => (this.destroyed = true));
     afterNextRender(() => {
       Object.assign(this.element.nativeElement, this.config);
       this.element.nativeElement.initialize();
@@ -47,8 +46,11 @@ export class SwiperDirective {
   @HostListener('swiperupdate', ['$event'])
   @HostListener('swiperlock', ['$event'])
   @HostListener('swiperunlock', ['$event'])
-  onNavigationChange(event: CustomEvent<[Swiper]>): void {
-    this.updateNavigation(event.detail[0]);
+  onNavigationChange(event: Event): void {
+    if (event instanceof CustomEvent) {
+      const swiper = (event as CustomEvent<[Swiper]>).detail?.[0];
+      if (swiper) this.updateNavigation(swiper);
+    }
   }
 
   private updateNavigation(swiper: Swiper): void {

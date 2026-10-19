@@ -1,5 +1,5 @@
 @switch (state().status) {
-  @case ('loading') {
+  @case ("loading") {
     <section
       class="relative px-4 pb-10 pt-8 md:px-8 md:py-24"
       aria-busy="true"
@@ -33,7 +33,7 @@
     </section>
   }
 
-  @case ('error') {
+  @case ("error") {
     <section
       class="flex min-h-[60vh] flex-col items-center justify-center gap-4 px-4 text-center"
     >
@@ -71,7 +71,7 @@
     </section>
   }
 
-  @case ('success') {
+  @case ("success") {
     @if (hero(); as hero) {
       <section class="relative isolate overflow-hidden">
         <!-- Backdrop -->
@@ -254,7 +254,7 @@
     }
 
     @if (data(); as data) {
-      @if (data.type === 'movie') {
+      @if (data.type === "movie") {
         <app-movie-info
           [movie]="data.movie"
           [recommendedMovies]="data.recommended"
@@ -275,12 +275,14 @@
         role="dialog"
         aria-modal="true"
         aria-label="Trailer"
-        (click)="closeTrailer()"
       >
-        <div
-          class="relative w-full max-w-5xl motion-safe:animate-fade-up"
-          (click)="$event.stopPropagation()"
-        >
+        <button
+          type="button"
+          class="absolute inset-0 h-full w-full cursor-default"
+          aria-label="Close trailer"
+          (click)="closeTrailer()"
+        ></button>
+        <div class="relative w-full max-w-5xl motion-safe:animate-fade-up">
           <button
             type="button"
             class="absolute -top-12 right-0 rounded-full p-2 text-gray-300 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"

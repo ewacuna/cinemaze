@@ -5,6 +5,7 @@ import {
   OnInit,
   signal,
   WritableSignal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {combineLatestWith, Observable, Subject, take, takeUntil} from 'rxjs';
@@ -16,9 +17,9 @@ import {MovieTvListComponent, SpinnerComponent} from '../../shared/components';
 
 @Component({
   selector: 'app-tv-shows',
-  standalone: true,
   imports: [SpinnerComponent, MovieTvListComponent],
   templateUrl: './tv-shows.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './tv-shows.component.scss',
 })
 export class TvShowsComponent implements OnInit, OnDestroy {

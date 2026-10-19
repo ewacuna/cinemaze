@@ -1,10 +1,14 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClient, withXhr} from '@angular/common/http';
 import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import {ActivatedRoute, convertToParamMap, provideRouter} from '@angular/router';
+import {
+  ActivatedRoute,
+  convertToParamMap,
+  provideRouter,
+} from '@angular/router';
 import {of} from 'rxjs';
 
 import {DetailsComponent} from './details.component';
@@ -19,7 +23,7 @@ describe('DetailsComponent', () => {
       imports: [DetailsComponent],
       providers: [
         provideRouter([]),
-        provideHttpClient(),
+        provideHttpClient(withXhr()),
         provideHttpClientTesting(),
         {
           provide: ActivatedRoute,
@@ -42,12 +46,14 @@ describe('DetailsComponent', () => {
   });
 
   it('should keep the page when secondary requests fail', () => {
-    http.expectOne((req) => req.url.startsWith('movie/1?')).flush({
-      title: 'Movie',
-      genres: [],
-      overview: '',
-      vote_count: 0,
-    });
+    http
+      .expectOne((req) => req.url.startsWith('movie/1?'))
+      .flush({
+        title: 'Movie',
+        genres: [],
+        overview: '',
+        vote_count: 0,
+      });
     http
       .expectOne((req) => req.url.startsWith('movie/1/recommendations?'))
       .flush(null, {status: 500, statusText: 'Error'});

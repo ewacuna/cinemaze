@@ -1,4 +1,10 @@
-import {Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit} from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {SwiperOptions} from 'swiper/types';
 import {RouterLink} from '@angular/router';
 
@@ -8,7 +14,6 @@ import {MovieTvCardComponent} from '../movie-tv-card/movie-tv-card.component';
 
 @Component({
   selector: 'app-movie-tv-list',
-  standalone: true,
   imports: [SwiperDirective, MovieTvCardComponent, RouterLink],
   templateUrl: './movie-tv-list.component.html',
   styles: `
@@ -16,6 +21,7 @@ import {MovieTvCardComponent} from '../movie-tv-card/movie-tv-card.component';
       @apply inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gray-600 bg-gray-800 text-gray-100 transition-colors hover:border-red-400 hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400 disabled:cursor-default disabled:opacity-35 disabled:hover:border-gray-600 disabled:hover:bg-gray-800 motion-reduce:transition-none;
     }
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class MovieTvListComponent implements OnInit {
@@ -75,8 +81,12 @@ export class MovieTvListComponent implements OnInit {
 
   private createQueryParams(): void {
     this.queryParams.q = this.isMovie ? 'movie' : 'tv-show';
-    this.withType && (this.queryParams.type = this.withType);
-    this.withGenre && (this.queryParams.genre = this.withGenre);
+    if (this.withType) {
+      this.queryParams.type = this.withType;
+    }
+    if (this.withGenre) {
+      this.queryParams.genre = this.withGenre;
+    }
   }
 
   private setSmallView(): void {

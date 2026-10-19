@@ -1,6 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {provideHttpClient, withXhr} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
+import {provideRouter} from '@angular/router';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { MoviesComponent } from './movies.component';
+import {MoviesComponent} from './movies.component';
 
 describe('MoviesComponent', () => {
   let component: MoviesComponent;
@@ -8,10 +11,14 @@ describe('MoviesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MoviesComponent]
-    })
-    .compileComponents();
-    
+      imports: [MoviesComponent],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(withXhr()),
+        provideHttpClientTesting(),
+      ],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(MoviesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

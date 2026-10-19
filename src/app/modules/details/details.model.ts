@@ -1,4 +1,10 @@
-import {IGenre, IMovie, IResult, ITvShow, IVideoData} from '../../shared/models';
+import {
+  IGenre,
+  IMovie,
+  IResult,
+  ITvShow,
+  IVideoData,
+} from '../../shared/models';
 
 export type ContentType = 'movie' | 'tv';
 

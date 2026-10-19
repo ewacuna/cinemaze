@@ -5,6 +5,7 @@ import {
   inject,
   OnInit,
   signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Title} from '@angular/platform-browser';
@@ -36,9 +37,9 @@ type SearchResult = IResult & {isMovie: boolean};
 
 @Component({
   selector: 'app-search',
-  standalone: true,
   imports: [ReactiveFormsModule, MovieTvCardComponent],
   templateUrl: './search.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './search.component.scss',
 })
 export class SearchComponent implements OnInit {

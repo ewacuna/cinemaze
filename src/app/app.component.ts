@@ -1,5 +1,10 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
+import {
+  Component,
+  inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
 import {ViewportScroller} from '@angular/common';
 import {initFlowbite} from 'flowbite';
 import {filter} from 'rxjs';
@@ -8,9 +13,9 @@ import {BodyComponent, NavbarComponent} from './shared/components';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, NavbarComponent, BodyComponent],
+  imports: [NavbarComponent, BodyComponent],
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {

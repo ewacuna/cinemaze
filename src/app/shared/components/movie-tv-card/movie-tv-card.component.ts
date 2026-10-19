@@ -1,4 +1,9 @@
-import {Component, input, InputSignal} from '@angular/core';
+import {
+  Component,
+  input,
+  InputSignal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {DatePipe, DecimalPipe, NgOptimizedImage} from '@angular/common';
 import {RouterLink} from '@angular/router';
 
@@ -7,7 +12,6 @@ import {IResult} from '../../models';
 
 @Component({
   selector: 'app-movie-tv-card',
-  standalone: true,
   imports: [
     NgOptimizedImage,
     RouterLink,
@@ -16,6 +20,7 @@ import {IResult} from '../../models';
     DatePipe,
   ],
   templateUrl: './movie-tv-card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: ``,
 })
 export class MovieTvCardComponent {

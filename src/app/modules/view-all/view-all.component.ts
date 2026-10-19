@@ -5,6 +5,7 @@ import {
   OnInit,
   signal,
   WritableSignal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
@@ -17,9 +18,9 @@ import {MovieTvCardComponent, SpinnerComponent} from '../../shared/components';
 
 @Component({
   selector: 'app-view-all',
-  standalone: true,
   imports: [MovieTvCardComponent, SpinnerComponent],
   templateUrl: './view-all.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './view-all.component.scss',
 })
 export class ViewAllComponent implements OnInit, OnDestroy {

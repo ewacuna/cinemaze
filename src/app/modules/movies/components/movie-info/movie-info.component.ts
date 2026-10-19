@@ -1,4 +1,12 @@
-import {Component, computed, inject, input, InputSignal, Signal} from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  InputSignal,
+  Signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {CurrencyPipe, DatePipe} from '@angular/common';
 
@@ -13,8 +21,8 @@ interface ITrailer {
 
 @Component({
   selector: 'app-movie-info',
-  standalone: true,
   imports: [MovieTvListComponent, CurrencyPipe, DatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './movie-info.component.html',
 })
 export class MovieInfoComponent {

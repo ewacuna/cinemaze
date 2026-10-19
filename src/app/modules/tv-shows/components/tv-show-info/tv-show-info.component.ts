@@ -1,4 +1,11 @@
-import {Component, computed, input, InputSignal, Signal} from '@angular/core';
+import {
+  Component,
+  computed,
+  input,
+  InputSignal,
+  Signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {DatePipe} from '@angular/common';
 
 import {IResult, ITvShow} from '../../../../shared/models';
@@ -6,8 +13,8 @@ import {MovieTvListComponent} from '../../../../shared/components';
 
 @Component({
   selector: 'app-tv-show-info',
-  standalone: true,
   imports: [DatePipe, MovieTvListComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './tv-show-info.component.html',
 })
 export class TvShowInfoComponent {

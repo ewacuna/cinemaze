@@ -55,6 +55,7 @@ describe('MovieTvListComponent', () => {
     }).not.toThrow();
     expect(buttons().map((button) => button.disabled)).toEqual([true, true]);
 
+    TestBed.tick();
     flushMicrotasks();
     fixture.detectChanges();
     expect(buttons().map((button) => button.disabled)).toEqual([true, false]);

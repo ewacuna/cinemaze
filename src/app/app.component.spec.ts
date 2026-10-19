@@ -1,10 +1,12 @@
 import {TestBed} from '@angular/core/testing';
+import {provideRouter} from '@angular/router';
 import {AppComponent} from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [provideRouter([])],
     }).compileComponents();
   });
 
@@ -20,12 +22,11 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('Cinemaze');
   });
 
-  it('should render title', () => {
+  it('should render the navigation and routed content', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Hello, cinemaze'
-    );
+    expect(compiled.querySelector('app-navbar')).not.toBeNull();
+    expect(compiled.querySelector('app-body router-outlet')).not.toBeNull();
   });
 });
