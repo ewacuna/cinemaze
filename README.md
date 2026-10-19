@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/assets/images/logo.svg" alt="Cinemaze logo" width="96" height="96">
+  <img src="https://raw.githubusercontent.com/ewacuna/cinemaze/main/src/assets/images/logo.svg" alt="Cinemaze logo" width="96" height="96">
 </p>
 
 <h3 align="center">Cinemaze</h3>
