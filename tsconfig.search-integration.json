@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.spec.json",
+  "include": ["src/app/modules/search/search.integration.ts", "src/**/*.d.ts"]
+}

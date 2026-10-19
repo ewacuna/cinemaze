@@ -1,0 +1,263 @@
+<section
+  class="mx-auto max-w-screen-xl px-8 pb-20 pt-14 text-slate-50 max-[680px]:px-5 max-[680px]:pb-14 max-[680px]:pt-9 max-[480px]:px-4 [&_button:focus-visible]:outline [&_button:focus-visible]:outline-2 [&_button:focus-visible]:outline-offset-4 [&_button:focus-visible]:outline-red-400"
+>
+  <header class="mx-auto max-w-[720px] text-center">
+    <p
+      class="mb-3.5 text-[11px] font-bold tracking-[0.18em] text-red-400 max-[480px]:text-[9px] max-[480px]:tracking-[0.13em]"
+    >
+      THE NEXT GREAT WATCH STARTS HERE
+    </p>
+    <h1
+      class="text-[clamp(2rem,4.5vw,3.3rem)] font-extrabold leading-[1.14] tracking-[-0.045em]"
+    >
+      Find your next <span class="text-red-400">favorite.</span>
+    </h1>
+    <p class="mb-7 mt-4 text-[15px] text-[#a8b3c2]">
+      Movies, series, and stories worth getting lost in.
+    </p>
+
+    <form role="search" (submit)="$event.preventDefault()">
+      <label class="sr-only" for="search">Search movies and TV shows</label>
+      <div
+        class="flex min-h-[60px] items-center gap-3 rounded-[14px] border border-[#465366] bg-[#1d2734] px-[18px] transition-[border-color,box-shadow] duration-150 focus-within:border-red-400 focus-within:shadow-[0_0_0_3px_#ef444426] motion-reduce:transition-none max-[480px]:gap-[9px] max-[480px]:px-3"
+      >
+        <svg
+          class="h-[22px] w-[22px] shrink-0 text-[#a8b3c2]"
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <circle cx="10.8" cy="10.8" r="7.3" />
+          <path d="m16.2 16.2 4.6 4.6" />
+        </svg>
+        <input
+          class="search-input min-w-0 w-full border-0 bg-transparent py-[18px] text-base text-white shadow-none outline-none placeholder:text-[#a8b3c2] focus:shadow-none focus:ring-0"
+          #searchInput
+          id="search"
+          type="search"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="Search movies and TV shows…"
+          [formControl]="searchControl"
+          aria-describedby="search-hint"
+          (keydown.escape)="clearSearch(searchInput)"
+        />
+        @if (searchControl.value) {
+          <button
+            class="grid h-9 w-9 shrink-0 place-items-center rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white [&_svg]:h-[18px] [&_svg]:w-[18px]"
+            type="button"
+            aria-label="Clear search"
+            (click)="clearSearch(searchInput)"
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path d="m6 6 12 12M18 6 6 18" />
+            </svg>
+          </button>
+        }
+      </div>
+      <p id="search-hint" class="mt-2.5 pl-1 text-left text-xs text-slate-400">
+        Search by title. We’ll take care of the rest.
+      </p>
+    </form>
+
+    <div
+      class="mt-[26px] inline-flex flex-wrap gap-1 rounded-xl border border-[#2d3949] bg-[#17212d] p-[5px]"
+      role="group"
+      aria-label="Filter by media type"
+    >
+      @for (filter of filters; track filter.value) {
+        <button
+          type="button"
+          class="rounded-lg px-[25px] py-2.5 text-[13px] font-semibold text-[#a8b3c2] hover:bg-[#263343] hover:text-white aria-pressed:bg-[#dc353d] aria-pressed:text-white aria-pressed:hover:bg-[#dc353d] max-[480px]:px-5"
+          [attr.aria-pressed]="type() === filter.value"
+          (click)="setType(filter.value)"
+        >
+          {{ filter.label }}
+        </button>
+      }
+    </div>
+  </header>
+
+  <p class="sr-only" role="status" aria-live="polite" aria-atomic="true">
+    @if (isLoading()) {
+      Searching for {{ query() }}.
+    } @else if (query() && !error()) {
+      {{ totalResults() }} results for {{ query() }}.
+    }
+  </p>
+
+  @if (!query()) {
+    <section
+      class="mx-auto mt-10 border-t border-[#263140] px-4 pb-8 pt-[52px] text-center max-[680px]:mt-8 max-[680px]:pt-9"
+      aria-labelledby="start-title"
+    >
+      <div
+        class="mx-auto mb-5 grid h-16 w-16 -rotate-6 place-items-center rounded-[20px] border border-[#364152] bg-[#1a2532] text-[#a8b3c2] [&_svg]:h-[30px] [&_svg]:w-[30px]"
+        aria-hidden="true"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+        >
+          <rect x="3" y="4" width="18" height="16" rx="3" />
+          <path d="M7 4v16M17 4v16M3 9h4m-4 6h4M17 9h4m-4 6h4" />
+        </svg>
+      </div>
+      <h2
+        id="start-title"
+        class="text-[21px] font-[650] tracking-tight max-[480px]:text-[19px]"
+      >
+        So many stories. Where to start?
+      </h2>
+      <p class="mb-6 mt-2.5 text-sm text-slate-400">
+        Look up a favorite or discover something new.
+      </p>
+      <div
+        class="flex flex-wrap items-center justify-center gap-2.5 text-xs"
+        aria-label="Suggested searches"
+      >
+        <span class="text-slate-400 max-[480px]:w-full">Try searching</span>
+        @for (suggestion of suggestions; track suggestion) {
+          <button
+            class="rounded-lg border border-[#354152] bg-[#19232f] px-[13px] py-[9px] text-[#d8e0ea] hover:border-red-400 hover:text-red-300"
+            type="button"
+            (click)="searchFor(suggestion)"
+          >
+            {{ suggestion }}
+            <span class="ml-2 text-slate-400" aria-hidden="true">↗</span>
+          </button>
+        }
+      </div>
+    </section>
+  } @else {
+    <section
+      class="mt-11 border-t border-[#263140] pt-[26px]"
+      aria-labelledby="results-title"
+      [attr.aria-busy]="isLoading()"
+    >
+      <div
+        class="mb-[22px] flex items-baseline justify-between gap-3 max-[680px]:flex-col max-[680px]:gap-1.5"
+      >
+        <h2
+          id="results-title"
+          class="min-w-0 text-[19px] font-semibold [overflow-wrap:anywhere]"
+        >
+          Results for <span class="text-slate-300">“{{ query() }}”</span>
+        </h2>
+        @if (!isInitialLoading() && !error()) {
+          <p class="shrink-0 text-xs text-slate-400">
+            {{ media().length }} of {{ totalResults() }} results
+          </p>
+        }
+      </div>
+
+      @if (isInitialLoading()) {
+        <div
+          class="grid grid-cols-6 gap-x-[18px] gap-y-6 max-[1100px]:grid-cols-5 max-[900px]:grid-cols-4 max-[680px]:grid-cols-3 max-[680px]:gap-x-3 max-[680px]:gap-y-[18px] max-[480px]:grid-cols-2"
+          aria-hidden="true"
+        >
+          @for (skeleton of skeletons; track skeleton) {
+            <div class="overflow-hidden rounded-lg bg-[#1d2734] pb-[18px]">
+              <div class="skeleton-poster aspect-[2/3] bg-[#293545]"></div>
+              <div class="mx-3 mt-4 h-3 w-3/4 rounded bg-[#354152]"></div>
+              <div class="mx-3 mt-2.5 h-3 w-[48%] rounded bg-[#354152]"></div>
+            </div>
+          }
+        </div>
+      } @else {
+        @if (media().length) {
+          <div
+            class="grid grid-cols-6 gap-x-[18px] gap-y-6 max-[1100px]:grid-cols-5 max-[900px]:grid-cols-4 max-[680px]:grid-cols-3 max-[680px]:gap-x-3 max-[680px]:gap-y-[18px] max-[480px]:grid-cols-2"
+          >
+            @for (
+              item of media();
+              track (item.isMovie ? "movie:" : "tv:") + item.id
+            ) {
+              <div class="relative min-w-0">
+                <span
+                  class="pointer-events-none absolute left-2.5 top-2.5 z-[1] rounded-[5px] border border-[#ffffff24] bg-[#101721ed] px-[7px] py-1 text-[10px] font-semibold text-slate-100"
+                  >{{ item.isMovie ? "Movie" : "TV Show" }}</span
+                >
+                <app-movie-tv-card [model]="item" [isMovie]="item.isMovie" />
+              </div>
+            }
+          </div>
+        } @else if (!error()) {
+          <div
+            class="px-4 pb-8 pt-[38px] text-center max-[680px]:mt-8 max-[680px]:pt-9"
+          >
+            <div
+              class="mx-auto mb-5 grid h-16 w-16 -rotate-6 place-items-center rounded-[20px] border border-[#364152] bg-[#1a2532] text-[#a8b3c2] [&_svg]:h-[30px] [&_svg]:w-[30px]"
+              aria-hidden="true"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <circle cx="10" cy="10" r="6.5" />
+                <path d="m15 15 6 6M7.5 10h5" />
+              </svg>
+            </div>
+            <h3 class="text-[21px] font-[650] tracking-tight">
+              No stories found this time.
+            </h3>
+            <p class="mb-6 mt-2.5 text-sm text-slate-400">
+              Try a different title or check your spelling.
+            </p>
+            @if (type() !== "all") {
+              <button
+                class="rounded-[9px] border border-[#485569] bg-[#202d3c] px-6 py-3 text-[13px] font-semibold text-slate-50 enabled:hover:border-red-400 enabled:hover:bg-[#293646] disabled:cursor-wait disabled:opacity-[0.65]"
+                type="button"
+                (click)="setType('all')"
+              >
+                Search all movies and TV shows
+              </button>
+            }
+          </div>
+        }
+      }
+
+      @if (error()) {
+        <div
+          class="mt-6 rounded-xl border border-[#7f343c] bg-red-500/[0.04] px-[18px] py-7 text-center [&_p]:mb-4 [&_p]:text-sm [&_p]:text-red-200"
+          role="alert"
+        >
+          <p>{{ error() }}</p>
+          <button
+            class="rounded-[9px] border border-[#485569] bg-[#202d3c] px-6 py-3 text-[13px] font-semibold text-slate-50 enabled:hover:border-red-400 enabled:hover:bg-[#293646] disabled:cursor-wait disabled:opacity-[0.65]"
+            type="button"
+            (click)="loadMore()"
+          >
+            Try again
+          </button>
+        </div>
+      } @else if (hasMore()) {
+        <div
+          class="mt-9 text-center [&_p]:mt-3 [&_p]:text-xs [&_p]:text-slate-400"
+        >
+          <button
+            class="rounded-[9px] border border-[#485569] bg-[#202d3c] px-6 py-3 text-[13px] font-semibold text-slate-50 enabled:hover:border-red-400 enabled:hover:bg-[#293646] disabled:cursor-wait disabled:opacity-[0.65]"
+            type="button"
+            [disabled]="isLoading()"
+            (click)="loadMore()"
+          >
+            {{ isLoading() ? "Loading more…" : "Load more results" }}
+          </button>
+          <p>There’s more to discover.</p>
+        </div>
+      }
+    </section>
+  }
+</section>

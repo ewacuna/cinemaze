@@ -1,0 +1,259 @@
+<header
+  class="relative isolate mx-auto flex min-h-[460px] max-w-screen-2xl items-center justify-center overflow-hidden px-5 py-16 sm:min-h-[480px] sm:px-8 md:min-h-[min(560px,68svh)] md:py-16"
+>
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-10 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_75%,transparent)]"
+  >
+    <div
+      class="absolute left-1/2 top-1/2 grid w-max -translate-x-1/2 -translate-y-1/2 -rotate-6 gap-3 opacity-55 md:gap-4"
+    >
+      @for (row of backdropRows(); track rowIndex; let rowIndex = $index) {
+        <div
+          class="flex gap-3 odd:translate-x-24 md:gap-4 md:odd:translate-x-32"
+          [class.hidden]="rowIndex > 2"
+          [class.md:flex]="rowIndex > 2"
+        >
+          @for (item of row; track item.id; let imageIndex = $index) {
+            <div
+              class="relative h-[112px] w-[200px] shrink-0 overflow-hidden rounded-xl bg-slate-800 md:h-[135px] md:w-60"
+            >
+              <img
+                [ngSrc]="'https://image.tmdb.org/t/p/w300' + item.backdrop_path"
+                [priority]="imageIndex >= 3 && imageIndex <= 5"
+                alt=""
+                fill
+                [disableOptimizedSrcset]="true"
+                class="select-none object-cover"
+              />
+            </div>
+          } @empty {
+            @for (placeholder of backdropPlaceholders; track placeholder) {
+              <div
+                class="h-[112px] w-[200px] shrink-0 rounded-xl bg-slate-800 md:h-[135px] md:w-60"
+              ></div>
+            }
+          }
+        </div>
+      }
+    </div>
+    <div
+      class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(2,6,23,0.94)_0%,_rgba(2,6,23,0.8)_35%,_rgba(2,6,23,0.25)_100%)]"
+    ></div>
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-slate-900/60 via-transparent to-slate-900/60"
+    ></div>
+  </div>
+
+  <div class="w-full max-w-3xl text-center">
+    <p class="mb-5 text-xs font-bold uppercase tracking-[0.2em] text-red-300">
+      Movies, series &amp; endless possibilities
+    </p>
+    <h1
+      class="text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-7xl"
+    >
+      Your next favorite<br />
+      <span class="text-main-color">starts here.</span>
+    </h1>
+    <p
+      class="mx-auto mt-5 max-w-md text-base leading-relaxed text-slate-300 sm:text-lg"
+    >
+      Discover movies and TV shows for every mood.
+    </p>
+
+    <form
+      role="search"
+      class="mx-auto mt-8 max-w-xl"
+      (submit)="search($event, homeSearch.value)"
+    >
+      <label for="home-search" class="sr-only"
+        >Search movies and TV shows</label
+      >
+      <div
+        class="flex items-center gap-2 rounded-2xl border border-slate-500 bg-slate-900/95 p-2 pl-4 shadow-xl shadow-black/20 focus-within:border-red-400 focus-within:ring-2 focus-within:ring-red-400/30"
+      >
+        <svg
+          class="h-5 w-5 shrink-0 text-slate-400"
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <circle cx="10.8" cy="10.8" r="7.3" />
+          <path d="m16.2 16.2 4.6 4.6" />
+        </svg>
+        <input
+          #homeSearch
+          id="home-search"
+          name="q"
+          type="search"
+          required
+          autocomplete="off"
+          placeholder="Search movies and TV shows…"
+          class="min-w-0 flex-1 border-0 bg-transparent py-3 text-base text-white outline-none placeholder:text-slate-400 focus:ring-0"
+        />
+        <button
+          type="submit"
+          class="shrink-0 rounded-xl bg-red-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-300 motion-reduce:transition-none sm:px-5"
+        >
+          Search
+        </button>
+      </div>
+    </form>
+    <a
+      routerLink="/movies"
+      class="mt-5 inline-flex min-h-11 items-center gap-2 rounded-lg px-3 text-sm font-semibold text-slate-200 transition-colors hover:text-red-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-300 motion-reduce:transition-none"
+    >
+      Explore movies <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</header>
+
+<div
+  class="mx-auto max-w-screen-2xl space-y-10 px-5 pb-16 pt-6 sm:space-y-12 sm:px-8 lg:space-y-14"
+>
+  @for (shelf of shelves().slice(0, 2); track shelf.key) {
+    <ng-container
+      *ngTemplateOutlet="shelfTemplate; context: {$implicit: shelf}"
+    />
+  }
+
+  @if (genreState() !== "ready" || genres().length) {
+    <section
+      aria-labelledby="genres-title"
+      class="rounded-2xl border border-slate-700/70 bg-slate-800/40 p-5 sm:p-7"
+    >
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h2
+            id="genres-title"
+            class="text-xl font-extrabold tracking-tight sm:text-2xl"
+          >
+            Find your kind of movie
+          </h2>
+          <p class="mt-2 text-sm text-slate-400">
+            Pick a genre. Discover your next watch.
+          </p>
+        </div>
+        @if (genres().length > 6) {
+          <button
+            type="button"
+            (click)="showAllGenres.set(!showAllGenres())"
+            [attr.aria-expanded]="showAllGenres()"
+            aria-controls="genre-links"
+            class="min-h-11 rounded-lg px-2 text-sm font-semibold text-red-300 hover:text-red-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-400"
+          >
+            {{ showAllGenres() ? "Show fewer genres" : "Explore all genres" }}
+          </button>
+        }
+      </div>
+      <div
+        id="genre-links"
+        class="mt-5 flex flex-wrap gap-2.5"
+        [attr.aria-busy]="genreState() === 'loading'"
+      >
+        @if (genreState() === "loading") {
+          <span class="sr-only" role="status">Loading genres…</span>
+          @for (placeholder of cardPlaceholders; track placeholder) {
+            <div
+              aria-hidden="true"
+              class="h-11 w-24 rounded-full bg-slate-700 motion-safe:animate-pulse"
+            ></div>
+          }
+        } @else if (genreState() === "error") {
+          <p role="status" class="self-center text-sm text-slate-300">
+            We couldn’t load the genres.
+          </p>
+          <button
+            type="button"
+            (click)="loadGenres()"
+            class="min-h-11 rounded-lg border border-slate-600 px-4 text-sm font-semibold hover:bg-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-red-400"
+          >
+            Try again
+          </button>
+        } @else {
+          @for (genre of visibleGenres(); track genre.id) {
+            <a
+              routerLink="/view"
+              [queryParams]="{q: 'movie', genre: genre.id}"
+              class="inline-flex min-h-11 items-center rounded-full border border-slate-600 bg-slate-800 px-5 text-sm font-medium text-slate-200 transition-colors hover:border-red-400 hover:bg-red-500/10 hover:text-red-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-400 motion-reduce:transition-none"
+              >{{ genre.name }}</a
+            >
+          }
+        }
+      </div>
+    </section>
+  }
+
+  @for (shelf of shelves().slice(2, 3); track shelf.key) {
+    <ng-container
+      *ngTemplateOutlet="shelfTemplate; context: {$implicit: shelf}"
+    />
+  }
+  @for (shelf of genreShelves(); track shelf.key) {
+    <ng-container
+      *ngTemplateOutlet="shelfTemplate; context: {$implicit: shelf}"
+    />
+  }
+</div>
+
+<ng-template #shelfTemplate let-shelf>
+  @if (shelf.state !== "ready" || shelf.items.length) {
+    <section
+      [attr.aria-label]="shelf.title"
+      [attr.aria-busy]="shelf.state === 'loading'"
+    >
+      @if (shelf.state === "ready") {
+        <app-movie-tv-list
+          [title]="shelf.title"
+          [movies]="shelf.items"
+          [isMovie]="shelf.isMovie"
+          [withType]="shelf.type"
+          [withGenre]="shelf.genre"
+          [isSmallView]="true"
+        />
+      } @else {
+        <h2 class="mb-4 text-2xl font-extrabold leading-none tracking-tight">
+          {{ shelf.title }}
+        </h2>
+        @if (shelf.state === "error") {
+          <div
+            class="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-700 bg-slate-800/50 p-5"
+          >
+            <p role="status" class="text-sm text-slate-300">
+              We couldn’t load {{ shelf.title.toLowerCase() }}.
+            </p>
+            <button
+              type="button"
+              (click)="loadShelf(shelf.key)"
+              [attr.aria-label]="'Retry ' + shelf.title"
+              class="min-h-11 rounded-lg border border-slate-600 px-4 text-sm font-semibold hover:bg-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-400"
+            >
+              Try again
+            </button>
+          </div>
+        } @else {
+          <span class="sr-only" role="status">Loading {{ shelf.title }}…</span>
+          <div
+            aria-hidden="true"
+            class="grid grid-cols-[repeat(6,minmax(0,1fr))] gap-3 overflow-hidden max-sm:grid-cols-[repeat(6,42%)] sm:max-lg:grid-cols-[repeat(6,23%)] lg:gap-5"
+          >
+            @for (placeholder of cardPlaceholders; track placeholder) {
+              <div
+                class="overflow-hidden rounded-lg border border-slate-700 bg-slate-800 motion-safe:animate-pulse"
+              >
+                <div class="aspect-[2/3] bg-slate-700"></div>
+                <div class="space-y-3 p-3">
+                  <div class="h-3 w-1/2 rounded bg-slate-700"></div>
+                  <div class="h-3 w-4/5 rounded bg-slate-700"></div>
+                  <div class="h-3 w-3/5 rounded bg-slate-700"></div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      }
+    </section>
+  }
+</ng-template>

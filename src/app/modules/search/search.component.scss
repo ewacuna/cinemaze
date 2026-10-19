@@ -1,0 +1,21 @@
+// Hide the native clear control because the field provides an accessible button.
+.search-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+// Preserve the existing loading rhythm without adding a global animation token.
+.skeleton-poster {
+  animation: search-pulse 1.3s ease-in-out infinite alternate;
+}
+
+@keyframes search-pulse {
+  to {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-poster {
+    animation: none;
+  }
+}

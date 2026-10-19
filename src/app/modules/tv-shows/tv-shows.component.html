@@ -1,0 +1,29 @@
+@defer (when !isLoading()) {
+  <section class="px-4 pt-4 md:pt-2">
+    <!-- On The Air -->
+    <app-movie-tv-list
+      [title]="'On The Air'"
+      [movies]="onTheAirTvShows"
+      [isMovie]="false"
+      [withType]="'on_the_air'"
+    />
+
+    <!-- Popular -->
+    <app-movie-tv-list
+      [title]="'Popular'"
+      [movies]="popularTvShows"
+      [isMovie]="false"
+      [withType]="'popular'"
+    />
+
+    <!-- Top Rated -->
+    <app-movie-tv-list
+      [title]="'Top Rated'"
+      [movies]="topRatedTvShows"
+      [isMovie]="false"
+      [withType]="'top_rated'"
+    />
+  </section>
+} @placeholder {
+  <app-spinner />
+}

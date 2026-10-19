@@ -1,0 +1,76 @@
+<section [attr.aria-label]="title || 'Recommendations'">
+  <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+    @if (showTitle) {
+      <h2
+        class="text-2xl font-extrabold leading-none tracking-tight text-white"
+      >
+        {{ title }}
+      </h2>
+    }
+    <div class="ml-auto flex items-center gap-2">
+      @if (showTitle) {
+        <a
+          class="mr-1 inline-flex min-h-11 items-center rounded-lg px-2 text-sm font-medium text-gray-400 hover:text-red-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
+          [routerLink]="['/view']"
+          [queryParams]="queryParams"
+        >
+          View All
+        </a>
+      }
+      <button
+        type="button"
+        class="carousel-control max-sm:!hidden"
+        [attr.aria-label]="'Previous items: ' + (title || 'Recommendations')"
+        [disabled]="carousel.isBeginning()"
+        (click)="carousel.previous()"
+      >
+        <svg
+          aria-hidden="true"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m15 18-6-6 6-6" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="carousel-control max-sm:!hidden"
+        [attr.aria-label]="'Next items: ' + (title || 'Recommendations')"
+        [disabled]="carousel.isEnd()"
+        (click)="carousel.next()"
+      >
+        <svg
+          aria-hidden="true"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m9 6 6 6-6 6" />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <swiper-container
+    init="false"
+    appSwiper
+    #carousel="appSwiper"
+    [config]="config"
+  >
+    @for (movie of movies; track movie.id) {
+      <swiper-slide class="pb-6">
+        <app-movie-tv-card [model]="movie" [isMovie]="isMovie" />
+      </swiper-slide>
+    }
+  </swiper-container>
+</section>

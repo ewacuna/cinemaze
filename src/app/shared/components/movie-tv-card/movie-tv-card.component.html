@@ -1,0 +1,53 @@
+<article
+  class="max-w-sm overflow-hidden rounded-lg border border-gray-700 bg-gray-800 shadow"
+>
+  <a
+    class="block rounded-t-lg focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-red-400"
+    [routerLink]="[isMovie() ? '/movies' : '/tv-shows', model().id]"
+  >
+    <img
+      class="w-full aspect-[2/3] object-cover select-none transition-opacity duration-200 hover:opacity-80 motion-reduce:transition-none"
+      [ngSrc]="
+        'https://image.tmdb.org/t/p/w220_and_h330_face/' + model().poster_path
+      "
+      [alt]="model().name ?? model().title"
+      [height]="330"
+      [width]="220"
+      appMissingPicture
+    />
+  </a>
+  <div class="min-w-0 p-2.5">
+    <div
+      class="mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs leading-5 text-gray-300"
+    >
+      @if (
+        isMovie() ? model().release_date : model().first_air_date;
+        as releaseDate
+      ) {
+        <span>{{ releaseDate | date: "yyyy" }}</span>
+      }
+      @if (model().vote_average > 0) {
+        <span class="inline-flex items-center gap-1 font-medium text-amber-300">
+          <span aria-hidden="true">★</span>
+          <span
+            >{{ model().vote_average | number: "1.1-1"
+            }}<span class="text-gray-300">/10</span></span
+          >
+        </span>
+      } @else {
+        <span class="text-gray-300">Not rated</span>
+      }
+    </div>
+    <a
+      class="block rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
+      [routerLink]="[isMovie() ? '/movies' : '/tv-shows', model().id]"
+      [title]="model().title || model().name"
+    >
+      <h3
+        class="line-clamp-2 min-h-10 break-words text-sm font-semibold leading-5 text-white"
+      >
+        {{ model().title || model().name }}
+      </h3>
+    </a>
+  </div>
+</article>

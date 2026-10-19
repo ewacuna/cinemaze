@@ -1,0 +1,29 @@
+@defer (when !isLoading()) {
+  <section class="px-4 pt-4 md:pt-2">
+    <!-- Now Playing -->
+    <app-movie-tv-list
+      [title]="'Now Playing'"
+      [movies]="nowPlayingMovies"
+      [isMovie]="true"
+      [withType]="'now_playing'"
+    />
+
+    <!-- Popular -->
+    <app-movie-tv-list
+      [title]="'Popular'"
+      [movies]="popularMovies"
+      [isMovie]="true"
+      [withType]="'popular'"
+    />
+
+    <!-- Upcoming -->
+    <app-movie-tv-list
+      [title]="'Upcoming'"
+      [movies]="upcomingMovies"
+      [isMovie]="true"
+      [withType]="'upcoming'"
+    />
+  </section>
+} @placeholder {
+  <app-spinner />
+}

@@ -1,0 +1,85 @@
+<section class="px-4 py-6 md:px-8 md:py-14">
+  <dl
+    class="mx-auto grid max-w-5xl grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10 ring-1 ring-white/10 sm:grid-cols-3"
+  >
+    <div class="bg-gray-800/80 p-4 sm:p-5">
+      <dt class="text-xs font-medium uppercase tracking-wider text-gray-400">
+        First air date
+      </dt>
+      <dd class="mt-1 font-semibold">
+        {{
+          tvShow().first_air_date
+            ? (tvShow().first_air_date | date: "MMM d, y")
+            : "Unknown"
+        }}
+      </dd>
+    </div>
+
+    <div class="bg-gray-800/80 p-4 sm:p-5">
+      <dt class="text-xs font-medium uppercase tracking-wider text-gray-400">
+        Status
+      </dt>
+      <dd class="mt-1 font-semibold">{{ tvShow().status || "Unknown" }}</dd>
+    </div>
+
+    <div class="bg-gray-800/80 p-4 sm:p-5">
+      <dt class="text-xs font-medium uppercase tracking-wider text-gray-400">
+        Episodes
+      </dt>
+      <dd class="mt-1 font-semibold">
+        {{ tvShow().number_of_episodes || "Unknown" }}
+      </dd>
+    </div>
+
+    <div class="bg-gray-800/80 p-4 sm:p-5">
+      <dt class="text-xs font-medium uppercase tracking-wider text-gray-400">
+        Created by
+      </dt>
+      <dd class="mt-1 font-semibold">{{ creators() || "Unknown" }}</dd>
+    </div>
+
+    <div class="bg-gray-800/80 p-4 sm:p-5">
+      <dt class="text-xs font-medium uppercase tracking-wider text-gray-400">
+        Networks
+      </dt>
+      <dd class="mt-1 font-semibold">{{ networks() || "Unknown" }}</dd>
+    </div>
+
+    <div class="bg-gray-800/80 p-4 sm:p-5">
+      <dt class="text-xs font-medium uppercase tracking-wider text-gray-400">
+        Last air date
+      </dt>
+      <dd class="mt-1 font-semibold">
+        {{
+          tvShow().last_air_date
+            ? (tvShow().last_air_date | date: "MMM d, y")
+            : "Unknown"
+        }}
+      </dd>
+    </div>
+  </dl>
+</section>
+
+<section class="px-4 pb-10 md:px-8 md:pb-14">
+  <div class="mx-auto max-w-5xl">
+    <h2 class="mb-6 text-2xl font-bold sm:text-3xl">
+      Recommendations
+      @if (recommendedTvShows().length) {
+        <span class="text-gray-400">({{ recommendedTvShows().length }})</span>
+      }
+    </h2>
+
+    @if (recommendedTvShows().length) {
+      <app-movie-tv-list
+        [showTitle]="false"
+        [movies]="recommendedTvShows()"
+        [isMovie]="false"
+        [isSmallView]="true"
+      />
+    } @else {
+      <p class="rounded-xl bg-gray-800/50 py-8 text-center text-gray-400">
+        There are no TV show recommendations yet
+      </p>
+    }
+  </div>
+</section>

@@ -1,0 +1,35 @@
+.navbar-menu {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    grid-template-rows 240ms ease,
+    opacity 180ms ease,
+    visibility 240ms;
+
+  &.is-open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.navbar-menu-content {
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .navbar-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar-menu {
+    transition: none;
+  }
+}

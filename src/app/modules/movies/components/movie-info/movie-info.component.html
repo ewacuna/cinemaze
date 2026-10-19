@@ -1,0 +1,123 @@
+<section class="px-4 py-6 md:px-8 md:py-14">
+  <dl
+    class="mx-auto grid max-w-5xl grid-cols-2 gap-px overflow-hidden rounded-xl bg-white/10 ring-1 ring-white/10 sm:grid-cols-3"
+  >
+    <div class="bg-gray-800/80 p-4 sm:p-5">
+      <dt class="text-xs font-medium uppercase tracking-wider text-gray-400">
+        Release date
+      </dt>
+      <dd class="mt-1 font-semibold">
+        {{
+          movie().release_date
+            ? (movie().release_date | date: "MMM d, y")
+            : "Unknown"
+        }}
+      </dd>
+    </div>
+
+    <div class="bg-gray-800/80 p-4 sm:p-5">
+      <dt class="text-xs font-medium uppercase tracking-wider text-gray-400">
+        Status
+      </dt>
+      <dd class="mt-1 font-semibold">{{ movie().status || "Unknown" }}</dd>
+    </div>
+
+    <div class="bg-gray-800/80 p-4 sm:p-5">
+      <dt class="text-xs font-medium uppercase tracking-wider text-gray-400">
+        Budget
+      </dt>
+      <dd class="mt-1 font-semibold">
+        @if (movie().budget) {
+          {{ movie().budget | currency: "USD" : "symbol" : "1.0-0" }}
+        } @else {
+          Unknown
+        }
+      </dd>
+    </div>
+
+    <div class="bg-gray-800/80 p-4 sm:p-5">
+      <dt class="text-xs font-medium uppercase tracking-wider text-gray-400">
+        Revenue
+      </dt>
+      <dd class="mt-1 font-semibold">
+        @if (movie().revenue) {
+          {{ movie().revenue | currency: "USD" : "symbol" : "1.0-0" }}
+        } @else {
+          Unknown
+        }
+      </dd>
+    </div>
+
+    <div class="bg-gray-800/80 p-4 sm:p-5">
+      <dt class="text-xs font-medium uppercase tracking-wider text-gray-400">
+        Languages
+      </dt>
+      <dd class="mt-1 font-semibold">{{ languages() || "Unknown" }}</dd>
+    </div>
+
+    <div class="bg-gray-800/80 p-4 sm:p-5">
+      <dt class="text-xs font-medium uppercase tracking-wider text-gray-400">
+        Production
+      </dt>
+      <dd class="mt-1 font-semibold">{{ companies() || "Unknown" }}</dd>
+    </div>
+  </dl>
+</section>
+
+<section class="px-4 pb-6 md:px-8 md:pb-14">
+  <div class="mx-auto max-w-5xl">
+    <h2 class="mb-6 text-2xl font-bold sm:text-3xl">
+      Trailers
+      @if (trailerList().length) {
+        <span class="text-gray-400">({{ trailerList().length }})</span>
+      }
+    </h2>
+
+    @if (trailerList().length) {
+      <ul
+        class="flex touch-manipulation snap-x snap-mandatory scroll-pl-4 gap-3 overflow-x-auto pb-2"
+      >
+        @for (trailer of trailerList(); track trailer.id) {
+          <li class="shrink-0 snap-start">
+            <iframe
+              class="aspect-video w-72 rounded-xl bg-black sm:w-80"
+              [src]="trailer.url"
+              [title]="trailer.name"
+              loading="lazy"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="rounded-xl bg-gray-800/50 py-8 text-center text-gray-400">
+        There are no available trailers for this movie yet
+      </p>
+    }
+  </div>
+</section>
+
+<section class="px-4 pb-10 md:px-8 md:pb-14">
+  <div class="mx-auto max-w-5xl">
+    <h2 class="mb-6 text-2xl font-bold sm:text-3xl">
+      Recommendations
+      @if (recommendedMovies().length) {
+        <span class="text-gray-400">({{ recommendedMovies().length }})</span>
+      }
+    </h2>
+
+    @if (recommendedMovies().length) {
+      <app-movie-tv-list
+        [showTitle]="false"
+        [movies]="recommendedMovies()"
+        [isMovie]="true"
+        [isSmallView]="true"
+      />
+    } @else {
+      <p class="rounded-xl bg-gray-800/50 py-8 text-center text-gray-400">
+        There are no film recommendations yet
+      </p>
+    }
+  </div>
+</section>
